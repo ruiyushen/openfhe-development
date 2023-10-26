@@ -69,7 +69,7 @@
         #else
             using expdtype = uint32_t;
         #endif
-    // clang-format on
+        // clang-format on
 
         #define _SECURE_SCL 0  // to speed up VS
         #define NO_BARRETT     // currently barrett is slower than mod

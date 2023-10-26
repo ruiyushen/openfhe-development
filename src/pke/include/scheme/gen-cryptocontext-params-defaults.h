@@ -52,14 +52,14 @@ constexpr SecretKeyDist secretKeyDist = UNIFORM_TERNARY;
 constexpr int maxRelinSkDeg           = 2;
 constexpr KeySwitchTechnique ksTech   = HYBRID;
 // Backend-specific settings for CKKS
-#if NATIVEINT == 128 && !defined(__EMSCRIPTEN__)
+#if NATIVEINT == 128
 constexpr ScalingTechnique scalTech = FIXEDAUTO;
 constexpr usint firstModSize        = 105;
 constexpr usint scalingModSize      = 78;
 #else
 constexpr ScalingTechnique scalTech = FLEXIBLEAUTOEXT;
-constexpr usint firstModSize        = 60;
-constexpr usint scalingModSize      = 59;
+constexpr usint firstModSize        = MAX_MODULUS_SIZE;
+constexpr usint scalingModSize      = MAX_MODULUS_SIZE - 1;
 #endif
 constexpr usint batchSize                                   = 0;
 constexpr uint32_t numLargeDigits                           = 0;
@@ -92,19 +92,16 @@ constexpr SecretKeyDist secretKeyDist = UNIFORM_TERNARY;
 constexpr int maxRelinSkDeg           = 2;
 constexpr KeySwitchTechnique ksTech   = BV;
 constexpr ScalingTechnique scalTech   = NORESCALE;
-#if defined(HAVE_INT128) || NATIVEINT != 64
-constexpr usint firstModSize = 60;
-#else
-constexpr usint firstModSize        = 57;
-#endif
-constexpr usint batchSize           = 0;
-constexpr uint32_t numLargeDigits   = 0;
-constexpr usint multiplicativeDepth = 1;
-#if defined(HAVE_INT128) || NATIVEINT != 64
+#if NATIVEINT == 128
+constexpr usint firstModSize   = 60;
 constexpr usint scalingModSize = 60;
 #else
-constexpr usint scalingModSize      = 57;
+constexpr usint firstModSize        = MAX_MODULUS_SIZE;
+constexpr usint scalingModSize      = MAX_MODULUS_SIZE - 1;
 #endif
+constexpr usint batchSize                                   = 0;
+constexpr uint32_t numLargeDigits                           = 0;
+constexpr usint multiplicativeDepth                         = 1;
 constexpr SecurityLevel securityLevel                       = HEStd_128_classic;
 constexpr usint ringDim                                     = 0;
 constexpr usint evalAddCount                                = 0;
