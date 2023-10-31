@@ -131,10 +131,11 @@ constexpr int maxRelinSkDeg                                 = 2;
 constexpr KeySwitchTechnique ksTech                         = HYBRID;
 constexpr ScalingTechnique scalTech                         = FLEXIBLEAUTOEXT;
 constexpr usint firstModSize                                = 0;
+constexpr usint scalingModSize                              = 0;
+
 constexpr usint batchSize                                   = 0;
 constexpr uint32_t numLargeDigits                           = 0;
 constexpr usint multiplicativeDepth                         = 1;
-constexpr usint scalingModSize                              = 0;
 constexpr SecurityLevel securityLevel                       = HEStd_128_classic;
 constexpr usint ringDim                                     = 0;
 constexpr usint evalAddCount                                = 5;

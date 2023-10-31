@@ -132,7 +132,7 @@ protected:
     enum DCRT_MODULUS {
         DEFAULT_EXTRA_MOD_SIZE = 20,
         MIN_SIZE               = 30,
-        MAX_SIZE               = 60,
+        MAX_SIZE               = MAX_MODULUS_SIZE,
     };
 };
 
