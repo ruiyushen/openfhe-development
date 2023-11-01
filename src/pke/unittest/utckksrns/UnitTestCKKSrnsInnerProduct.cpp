@@ -70,14 +70,12 @@ T plainInnerProduct(std::vector<T> vec) {
 // in power of 2 cyclotomics.
 double CKKSrnsInnerProduct(const std::vector<double> testVec) {
     lbcrypto::SecurityLevel securityLevel = lbcrypto::HEStd_NotSet;
-    uint32_t dcrtBits                     = 59;
     uint32_t ringDim                      = 1 << 8;
     uint32_t batchSize                    = ringDim / 2;
     lbcrypto::CCParams<lbcrypto::CryptoContextCKKSRNS> parameters;
     uint32_t multDepth = 10;
 
     parameters.SetMultiplicativeDepth(multDepth);
-    parameters.SetScalingModSize(dcrtBits);
     parameters.SetBatchSize(batchSize);
     parameters.SetSecurityLevel(securityLevel);
     parameters.SetRingDim(ringDim);

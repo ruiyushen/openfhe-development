@@ -116,9 +116,13 @@ TEST_F(UTGENERAL_ENCODING, packed_int_ptxt_encoding_negative) {
 }
 
 TEST_F(UTGENERAL_ENCODING, packed_int_ptxt_encoding_DCRTPoly_prime_cyclotomics) {
-    uint32_t init_size   = 3;
-    uint32_t dcrtBits    = 24;
-    uint32_t dcrtBitsBig = 58;
+    const size_t init_size  = 3;
+    const uint32_t dcrtBits = 24;
+    #if defined EMSCRIPTEN
+        usint dcrtBitsBig = MAX_MODULUS_SIZE;
+    #else
+        usint dcrtBitsBig = 58;
+    #endif
 
     uint32_t m = 1811;
 
@@ -129,33 +133,25 @@ TEST_F(UTGENERAL_ENCODING, packed_int_ptxt_encoding_DCRTPoly_prime_cyclotomics) 
     uint32_t mNTT = pow(2, ceil(log2(2 * m - 1)));
 
     // populate the towers for the small modulus
-
     std::vector<NativeInteger> init_moduli(init_size);
     std::vector<NativeInteger> init_rootsOfUnity(init_size);
 
-    NativeInteger q      = FirstPrime<NativeInteger>(dcrtBits, mArb);
-    init_moduli[0]       = q;
-    init_rootsOfUnity[0] = RootOfUnity(mArb, init_moduli[0]);
-
-    for (uint32_t i = 1; i < init_size; i++) {
-        q                    = lbcrypto::NextPrime(q, mArb);
+    NativeInteger q = GetMaxPrime<NativeInteger>(dcrtBits, mArb);
+    for (size_t i = 0; i < init_size; ++i) {
+        q                    = lbcrypto::PreviousPrime(q, mArb);
         init_moduli[i]       = q;
-        init_rootsOfUnity[i] = RootOfUnity(mArb, init_moduli[i]);
+        init_rootsOfUnity[i] = RootOfUnity(mArb, q);
     }
 
     // populate the towers for the big modulus
-
     std::vector<NativeInteger> init_moduli_NTT(init_size);
     std::vector<NativeInteger> init_rootsOfUnity_NTT(init_size);
 
-    q                        = FirstPrime<NativeInteger>(dcrtBitsBig, mNTT);
-    init_moduli_NTT[0]       = q;
-    init_rootsOfUnity_NTT[0] = RootOfUnity(mNTT, init_moduli_NTT[0]);
-
-    for (uint32_t i = 1; i < init_size; i++) {
-        q                        = lbcrypto::NextPrime(q, mNTT);
+    q = GetMaxPrime<NativeInteger>(dcrtBitsBig, mNTT);
+    for (size_t i = 0; i < init_size; ++i) {
+        q                        = lbcrypto::PreviousPrime(q, mNTT);
         init_moduli_NTT[i]       = q;
-        init_rootsOfUnity_NTT[i] = RootOfUnity(mNTT, init_moduli_NTT[i]);
+        init_rootsOfUnity_NTT[i] = RootOfUnity(mNTT, q);
     }
 
     auto paramsDCRT = std::make_shared<ILDCRTParams<BigInteger>>(m, init_moduli, init_rootsOfUnity, init_moduli_NTT,
@@ -181,9 +177,13 @@ TEST_F(UTGENERAL_ENCODING, packed_int_ptxt_encoding_DCRTPoly_prime_cyclotomics) 
 }
 
 TEST_F(UTGENERAL_ENCODING, packed_int_ptxt_encoding_DCRTPoly_prime_cyclotomics_negative) {
-    uint32_t init_size   = 3;
-    uint32_t dcrtBits    = 24;
-    uint32_t dcrtBitsBig = 58;
+    const size_t init_size  = 3;
+    const uint32_t dcrtBits = 24;
+    #if defined EMSCRIPTEN
+        usint dcrtBitsBig = MAX_MODULUS_SIZE;
+    #else
+        usint dcrtBitsBig = 58;
+    #endif
 
     uint32_t m = 1811;
 
@@ -197,29 +197,22 @@ TEST_F(UTGENERAL_ENCODING, packed_int_ptxt_encoding_DCRTPoly_prime_cyclotomics_n
     std::vector<NativeInteger> init_moduli(init_size);
     std::vector<NativeInteger> init_rootsOfUnity(init_size);
 
-    NativeInteger q      = FirstPrime<NativeInteger>(dcrtBits, mArb);
-    init_moduli[0]       = q;
-    init_rootsOfUnity[0] = RootOfUnity(mArb, init_moduli[0]);
-
-    for (uint32_t i = 1; i < init_size; i++) {
-        q                    = lbcrypto::NextPrime(q, mArb);
+    NativeInteger q = GetMaxPrime<NativeInteger>(dcrtBits, mArb);
+    for (size_t i = 0; i < init_size; ++i) {
+        q                    = lbcrypto::PreviousPrime(q, mArb);
         init_moduli[i]       = q;
-        init_rootsOfUnity[i] = RootOfUnity(mArb, init_moduli[i]);
+        init_rootsOfUnity[i] = RootOfUnity(mArb, q);
     }
 
     // populate the towers for the big modulus
-
     std::vector<NativeInteger> init_moduli_NTT(init_size);
     std::vector<NativeInteger> init_rootsOfUnity_NTT(init_size);
 
-    q                        = FirstPrime<NativeInteger>(dcrtBitsBig, mNTT);
-    init_moduli_NTT[0]       = q;
-    init_rootsOfUnity_NTT[0] = RootOfUnity(mNTT, init_moduli_NTT[0]);
-
-    for (uint32_t i = 1; i < init_size; i++) {
-        q                        = lbcrypto::NextPrime(q, mNTT);
+    q = GetMaxPrime<NativeInteger>(dcrtBitsBig, mNTT);
+    for (size_t i = 0; i < init_size; ++i) {
+        q                        = lbcrypto::PreviousPrime(q, mNTT);
         init_moduli_NTT[i]       = q;
-        init_rootsOfUnity_NTT[i] = RootOfUnity(mNTT, init_moduli_NTT[i]);
+        init_rootsOfUnity_NTT[i] = RootOfUnity(mNTT, q);
     }
 
     auto paramsDCRT = std::make_shared<ILDCRTParams<BigInteger>>(m, init_moduli, init_rootsOfUnity, init_moduli_NTT,

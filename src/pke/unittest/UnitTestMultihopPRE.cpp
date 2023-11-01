@@ -89,7 +89,11 @@ protected:
             dcrtbits      = 30;
 
             qmodulus  = 218;
-            firstqmod = 60;
+            #if defined EMSCRIPTEN
+                firstqmod = MAX_MODULUS_SIZE;
+            #else
+                firstqmod = 60;
+            #endif
             parameters.SetPREMode(NOISE_FLOODING_HRA);
             parameters.SetKeySwitchTechnique(BV);
         }
@@ -99,7 +103,11 @@ protected:
             dcrtbits      = 30;
 
             qmodulus      = 218;
-            firstqmod     = 60;
+            #if defined EMSCRIPTEN
+                firstqmod = MAX_MODULUS_SIZE;
+            #else
+                firstqmod = 60;
+            #endif
             uint32_t dnum = 2;
             parameters.SetPREMode(NOISE_FLOODING_HRA);
             parameters.SetKeySwitchTechnique(HYBRID);
