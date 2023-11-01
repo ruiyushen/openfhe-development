@@ -360,7 +360,7 @@ bool ParameterGenerationBFVRNS::ParamsGenBFVRNS(std::shared_ptr<CryptoParameters
 
     uint32_t numPartQ = ComputeNumLargeDigits(numDigits, sizeQ - 1);
 
-    cryptoParamsBFVRNS->PrecomputeCRTTables(ksTech, scalTech, encTech, multTech, numPartQ, 60, 0);
+    cryptoParamsBFVRNS->PrecomputeCRTTables(ksTech, scalTech, encTech, multTech, numPartQ, DCRT_MODULUS::MAX_SIZE, 0);
 
     return true;
 }

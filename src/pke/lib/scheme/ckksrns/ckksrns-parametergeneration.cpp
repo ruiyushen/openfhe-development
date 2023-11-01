@@ -41,12 +41,6 @@ CKKS implementation. See https://eprint.iacr.org/2020/1118 for details.
 
 namespace lbcrypto {
 
-#if NATIVEINT == 128
-const size_t AUXMODSIZE = 119;
-#else
-const size_t AUXMODSIZE = MAX_MODULUS_SIZE;
-#endif
-
 bool ParameterGenerationCKKSRNS::ParamsGenCKKSRNS(std::shared_ptr<CryptoParametersBase<DCRTPoly>> cryptoParams,
                                                   usint cyclOrder, usint numPrimes, usint scalingModSize,
                                                   usint firstModSize, uint32_t numPartQ,
@@ -73,9 +67,13 @@ bool ParameterGenerationCKKSRNS::ParamsGenCKKSRNS(std::shared_ptr<CryptoParamete
 
     //// HE Standards compliance logic/check
     SecurityLevel stdLevel = cryptoParamsCKKSRNS->GetStdLevel();
-    uint32_t auxBits       = AUXMODSIZE;
-    uint32_t n             = cyclOrder / 2;
-    uint32_t qBound        = firstModSize + (numPrimes - 1) * scalingModSize + extraModSize;
+    #if NATIVEINT == 128
+        uint32_t auxBits = 119;
+    #else
+        uint32_t auxBits = DCRT_MODULUS::MAX_SIZE;
+    #endif
+    uint32_t n      = cyclOrder / 2;
+    uint32_t qBound = firstModSize + (numPrimes - 1) * scalingModSize + extraModSize;
     // Estimate ciphertext modulus Q bound (in case of GHS/HYBRID P*Q)
     if (ksTech == HYBRID) {
         qBound += ceil(ceil(static_cast<double>(qBound) / numPartQ) / auxBits) * auxBits;
