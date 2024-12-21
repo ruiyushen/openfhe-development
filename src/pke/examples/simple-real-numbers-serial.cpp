@@ -255,7 +255,7 @@ void clientProcess() {
     std::cout << "Deserialized eval mult keys" << '\n' << std::endl;
     std::ifstream rotKeyIStream(DATAFOLDER + rotKeyLocation, std::ios::in | std::ios::binary);
     if (!rotKeyIStream.is_open()) {
-        std::cerr << "Cannot read serialization from " << DATAFOLDER + multKeyLocation << std::endl;
+        std::cerr << "Cannot read serialization from " << DATAFOLDER + rotKeyLocation << std::endl;
         std::exit(1);
     }
     if (!clientCC->DeserializeEvalAutomorphismKey(rotKeyIStream, SerType::BINARY)) {
